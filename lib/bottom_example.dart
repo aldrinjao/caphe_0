@@ -1,27 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:caphe_0/widgets/drawer.dart';
-import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
-class HomeScreen extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+  final String title;
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  //this is for the bottom navigation
+class _MyHomePageState extends State<MyHomePage> {
   int selectedPos = 0;
 
   double bottomNavBarHeight = 60;
 
   List<TabItem> tabItems = List.of([
-    new TabItem(Icons.home, "Home", Colors.green),
-    new TabItem(Icons.today, "Calendar", Colors.blue),
-    new TabItem(Icons.info, "About", Colors.purple),
-    new TabItem(Icons.timeline, "Timeline", Colors.red),
+    new TabItem(Icons.home, "Home", Colors.blue),
+    new TabItem(Icons.search, "Search", Colors.orange),
+    new TabItem(Icons.layers, "Reports", Colors.red),
+    new TabItem(Icons.notifications, "Notifications", Colors.cyan),
   ]);
 
   CircularBottomNavigationController _navigationController;
-
 
   @override
   void initState() {
@@ -31,59 +32,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        drawer: DrawerContainer(),
-        appBar: AppBar(
-          title: Text(
-            "CAPHE",
-            style: TextStyle(color: Colors.black54),
-          ),
-          iconTheme: IconThemeData(color: Colors.green),
-          backgroundColor: Colors.white,
-          bottom: TabBar(
-            tabs: List.generate(3, (index) {
-              return new Text("$index",
-                  style: TextStyle(color: Colors.black54));
-            }),
-          ),
-        ),
-        body: bodyContainer(),
-        bottomNavigationBar: bottomNav(),
-//        TabBarView(
-//          children: [
-//            Icon(Icons.directions_car),
-//            Icon(Icons.directions_transit),
-//            Icon(Icons.directions_bike),
-//          ],
-//        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: null,
-          backgroundColor: Colors.blue,
-          child: Icon(Icons.add),
-        ),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Padding(child: bodyContainer(), padding: EdgeInsets.only(bottom: bottomNavBarHeight),),
+          Align(alignment: Alignment.bottomCenter, child: bottomNav())
+        ],
       ),
     );
   }
-
-
 
   Widget bodyContainer() {
     Color selectedColor = tabItems[selectedPos].color;
     String slogan;
     switch (selectedPos) {
       case 0:
-        slogan = "Home Show Gauge Chart";
+        slogan = "Familly, Happiness, Food";
         break;
       case 1:
-        slogan = "Show calendar";
+        slogan = "Find, Check, Use";
         break;
       case 2:
-        slogan = "Show about";
+        slogan = "Receive, Review, Rip";
         break;
       case 3:
-        slogan = "Show timeline";
+        slogan = "Noise, Panic, Ignore";
         break;
     }
 

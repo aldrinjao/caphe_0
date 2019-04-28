@@ -16,10 +16,14 @@ class _DrawerContainerState extends State<DrawerContainer> {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
-            child: Text('Drawer Header'),
-            decoration: BoxDecoration(
-              color: Colors.greenAccent,
+          UserAccountsDrawerHeader(
+            accountEmail: Text("natalie@gmail.com"),
+            accountName: Text("natalie"),
+            currentAccountPicture: CircleAvatar(
+              child: Text(
+                't',
+                style: TextStyle(fontSize: 40.00),
+              ),
             ),
           ),
           ListTile(
@@ -29,7 +33,6 @@ class _DrawerContainerState extends State<DrawerContainer> {
               // ...
               // Then close the drawer
               Navigator.pop(context);
-
             },
           ),
           ListTile(
@@ -41,6 +44,7 @@ class _DrawerContainerState extends State<DrawerContainer> {
               Navigator.pop(context);
             },
           ),
+
         ],
       ),
     );

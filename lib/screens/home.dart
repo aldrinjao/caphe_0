@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:caphe_0/widgets/drawer.dart';
 import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   ]);
 
   CircularBottomNavigationController _navigationController;
-
 
   @override
   void initState() {
@@ -44,12 +44,22 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.white,
           bottom: TabBar(
             tabs: List.generate(3, (index) {
-              return new Text("$index",
+              return new Text("plantation: $index",
                   style: TextStyle(color: Colors.black54));
             }),
           ),
         ),
-        body: bodyContainer(),
+        body: TabBarView(
+          children: [
+            Text(selectedPos.toString()),
+            Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.blue)
+            ,
+            Icon(Icons.directions_bike),
+          ],
+        ),
         bottomNavigationBar: bottomNav(),
 //        TabBarView(
 //          children: [
@@ -66,8 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
 
   Widget bodyContainer() {
     Color selectedColor = tabItems[selectedPos].color;
@@ -95,7 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Center(
           child: Text(
             slogan,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
       ),

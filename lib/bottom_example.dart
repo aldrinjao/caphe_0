@@ -36,9 +36,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
         children: <Widget>[
           Padding(child: bodyContainer(), padding: EdgeInsets.only(bottom: bottomNavBarHeight),),
-          Align(alignment: Alignment.bottomCenter, child: bottomNav())
+
         ],
       ),
+      bottomNavigationBar: bottomNav(),
     );
   }
 

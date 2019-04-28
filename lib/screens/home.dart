@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:caphe_0/widgets/drawer.dart';
 import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
+import 'package:caphe_0/widgets/circle_tracker.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,8 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<TabItem> tabItems = List.of([
     new TabItem(Icons.home, "Home", Colors.green),
     new TabItem(Icons.today, "Calendar", Colors.blue),
-    new TabItem(Icons.info, "About", Colors.purple),
-    new TabItem(Icons.timeline, "Timeline", Colors.red),
+    new TabItem(Icons.info, "About", Colors.purple[400]),
+    new TabItem(Icons.timeline, "Timeline", Colors.red[400]),
   ]);
 
   CircularBottomNavigationController _navigationController;
@@ -57,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: double.infinity,
                 color: Colors.blue)
             ,
-            Icon(Icons.directions_bike),
+            CircleTracker(),
           ],
         ),
         bottomNavigationBar: bottomNav(),

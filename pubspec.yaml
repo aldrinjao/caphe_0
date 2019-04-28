@@ -25,6 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
 
   circular_bottom_navigation: ^1.0.0
+  charts_flutter: ^0.6.0
+
 
 dev_dependencies:
   flutter_test:

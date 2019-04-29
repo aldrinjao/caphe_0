@@ -12,7 +12,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   //this is for the bottom navigation
   int selectedPos = 0;
-
+  List<Color> _tabColors = [Colors.green[400], Colors.blue[400], Colors. purple[400], Colors.red[400]];
+  Color _tabColor;
   double bottomNavBarHeight = 60;
 
   List<TabItem> tabItems = List.of([
@@ -28,13 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _navigationController = new CircularBottomNavigationController(selectedPos);
+    _tabColor = _tabColors[0];
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
+
+
+    return Scaffold(
         drawer: DrawerContainer(),
         appBar: AppBar(
           title: Text(
@@ -43,23 +45,46 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           iconTheme: IconThemeData(color: Colors.green),
           backgroundColor: Colors.white,
-          bottom: TabBar(
-            tabs: List.generate(3, (index) {
-              return new Text("plantation: $index",
-                  style: TextStyle(color: Colors.black54));
-            }),
-          ),
+          elevation: 1,
+
         ),
-        body: TabBarView(
-          children: [
-            Text(selectedPos.toString()),
-            Container(
-                width: double.infinity,
-                height: double.infinity,
-                color: Colors.blue)
-            ,
-            CircleTracker(),
-          ],
+        body: new DefaultTabController(
+          length: 3,
+          child: new Column(
+            children: <Widget>[
+              Padding(padding: EdgeInsets.all(4),),
+              new Container(
+                decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)), color: Colors.grey[300]),
+                constraints: BoxConstraints(maxHeight: 150.0),
+                child: new Material(
+                  color: Colors.white70,
+                  child: new TabBar(
+                    unselectedLabelColor: Colors.black54,
+                    isScrollable: true,
+                    indicator: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)), gradient: LinearGradient(colors: [Colors.green, Colors.blue])),
+                    tabs: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("penritnse"),
+                      ),
+                      Text("WATHSEST"),
+                      Text("WENTST")
+
+                    ],
+                  ),
+                ),
+              ),
+              new Expanded(
+                child: new TabBarView(
+                  children: [
+                    new Icon(Icons.directions_car),
+                    new Icon(Icons.directions_transit),
+                    CircleTracker(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
         bottomNavigationBar: bottomNav(),
 //        TabBarView(
@@ -74,48 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.blue,
           child: Icon(Icons.add),
         ),
-      ),
-    );
-  }
-
-  Widget bodyContainer() {
-    Color selectedColor = tabItems[selectedPos].color;
-    String slogan;
-    switch (selectedPos) {
-      case 0:
-        slogan = "Home Show Gauge Chart";
-        break;
-      case 1:
-        slogan = "Show calendar";
-        break;
-      case 2:
-        slogan = "Show about";
-        break;
-      case 3:
-        slogan = "Show timeline";
-        break;
-    }
-
-    return GestureDetector(
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: selectedColor,
-        child: Center(
-          child: Text(
-            slogan,
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-        ),
-      ),
-      onTap: () {
-        if (_navigationController.value == tabItems.length - 1) {
-          _navigationController.value = 0;
-        } else {
-          _navigationController.value++;
-        }
-      },
     );
   }
 
@@ -129,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
       selectedCallback: (int selectedPos) {
         setState(() {
           this.selectedPos = selectedPos;
+          _tabColor = _tabColors[selectedPos];
           print(_navigationController.value);
         });
       },

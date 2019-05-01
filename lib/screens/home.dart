@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: new TabBarView(
                   children: [
                     new Icon(Icons.directions_car),
-                    new Icon(Icons.directions_transit),
+                    Container(color: Colors.blue,),
                     CircleTracker(),
                   ],
                 ),

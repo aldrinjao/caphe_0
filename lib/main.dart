@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'screens/home.dart';
-import 'bottom_example.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,9 +7,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'CAPHE',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        accentColor: Colors.blue,
       ),
       home: HomeScreen(),
     );

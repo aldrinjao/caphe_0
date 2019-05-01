@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:math';
+import 'package:caphe_0/widgets/legend.dart';
 
 class CircleTracker extends StatefulWidget {
   @override
@@ -12,19 +13,28 @@ class _CircleTrackerState extends State<CircleTracker> {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Stack(
+        child: Column(
           children: <Widget>[
-            GaugeChart(GaugeChart._createSampleData(),animate: true),
-            Center(child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-              Text("Harvest in:", style: TextStyle(fontSize: 35.00, color: Colors.black54),),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("3 days", style: TextStyle(fontSize: 70.00, color: Colors.black87,),),
+            Flexible(
+              child: Stack(
+                children: <Widget>[
+                  Center(child:GaugeChart(GaugeChart._createSampleData(),animate: true)),
+                  Center(child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                    Text("Harvest in:", style: TextStyle(fontSize: 35.00, color: Colors.black54),),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("3 days", style: TextStyle(fontSize: 70.00, color: Colors.black87,),),
+                      ),
+                    ),
+                    Text("Berry Ripening Stage", style: TextStyle(fontSize: 20, color: Colors.black54),),
+                  ],)),
+                ],
               ),
-              Text("Berry Ripening Stage", style: TextStyle(fontSize: 20, color: Colors.black54),),
-            ],)),
+            ),
+            Legend(),
           ],
         ),
       )

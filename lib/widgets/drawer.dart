@@ -17,6 +17,7 @@ class _DrawerContainerState extends State<DrawerContainer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
+            decoration: BoxDecoration(gradient: SweepGradient(colors: [Colors.green, Colors.blue])),
             accountEmail: Text("natalie@gmail.com"),
             accountName: Text("natalie"),
             currentAccountPicture: CircleAvatar(

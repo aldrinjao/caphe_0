@@ -4,23 +4,22 @@ class Legend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 7),
+      padding: EdgeInsets.symmetric(vertical: 1),
       child: Row(
         children: <Widget>[
           Flexible(
             flex: 8,
-            child: Card(
-              elevation: 1,
-              child: Container(
-                child: Center(child: _buildContainer()),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                elevation: 1,
+                child: Container(
+                  child: Center(child: _buildContainer()),
+                ),
               ),
             ),
           ),
-          Flexible(
-              flex: 2,
-              child: Container(
-                color: Colors.blue,
-              )),
+
         ],
       ),
     );
@@ -29,26 +28,43 @@ class Legend extends StatelessWidget {
   Widget _buildContainer() {
     return Container(
       padding: EdgeInsets.all(8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
         children: <Widget>[
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          Container(
+            child: Row(
               children: <Widget>[
-                _buildItem(Colors.green[400], "inflorescence"),
-                _buildItem(Colors.blue[400], "flowering"),
+                Icon(
+                  Icons.rotate_right,
+                  color: Colors.grey,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("current and past stage"),
+                ),
               ],
             ),
           ),
-
-   Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _buildItem(Colors.purple[400], "berry development"),
-              _buildItem(Colors.red[400], "berry ripening"),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _buildItem(Colors.green[400], "inflorescence"),
+                    _buildItem(Colors.blue[400], "flowering"),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _buildItem(Colors.purple[400], "berry development"),
+                  _buildItem(Colors.red[400], "berry ripening"),
+                ],
+              )
             ],
-          )
+          ),
         ],
       ),
     );

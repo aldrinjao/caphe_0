@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:caphe_0/screens/welcome.dart';
+import 'package:caphe_0/screens/managing.dart';
+import 'package:caphe_0/screens/about.dart';
 
 class DrawerContainer extends StatefulWidget {
+  const DrawerContainer({Key key, this.user}) : super(key: key);
+  final FirebaseUser user;
   @override
   _DrawerContainerState createState() => _DrawerContainerState();
 }
@@ -17,32 +24,55 @@ class _DrawerContainerState extends State<DrawerContainer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            decoration: BoxDecoration(gradient: SweepGradient(colors: [Colors.green, Colors.blue])),
-            accountEmail: Text("natalie@gmail.com"),
-            accountName: Text("natalie"),
+            decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.green, Colors.blue])),
+            accountEmail: Text(widget.user.email), // Displays email of user
+            accountName: StreamBuilder<DocumentSnapshot>(
+              stream: Firestore.instance
+                  .collection('users')
+                  .document(widget.user.uid)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if(snapshot.hasError){
+                  return(Text("Error: ${snapshot.error}"));
+                }
+                switch(snapshot.connectionState){
+                  case ConnectionState.waiting: return Text('Loading..');
+                  default:
+                    return Text(snapshot.data['name']);  //Displays name of user
+                }
+              },
+            ),
             currentAccountPicture: CircleAvatar(
               child: Text(
-                't',
+                widget.user.email[0], // Displays first letter of email
                 style: TextStyle(fontSize: 40.00),
               ),
             ),
           ),
           ListTile(
-            title: Text('Item 1'),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+            title: Text('Manage Plantations'),
+            trailing: Icon(Icons.collections_bookmark),
+            onTap: () async{
+              Navigator.of(context).pop(); //this pops the drawer
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PlantationManager(user: widget.user)));
             },
           ),
           ListTile(
-            title: Text('Item 2'),
+            title: Text('About Us'),
+            trailing: Icon(Icons.info),
+            onTap: () async {
+              await Navigator.of(context).pop(); //this pops the drawer
+              await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AboutScreen()));
+              // Removed setState(), the page will be rebuilt automatically
+            },
+          ),
+
+          ListTile(
+            title: Text('Log Out'),
+            trailing: Icon(Icons.exit_to_app),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              _showDialog();
             },
           ),
 
@@ -50,4 +80,45 @@ class _DrawerContainerState extends State<DrawerContainer> {
       ),
     );
   }
-}
+
+  //Firebase Authentication logout return to welcome screen.
+ Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut().then((_) {
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => WelcomeScreen()),
+              (Route<dynamic> route) => false);
+    });
+  }
+
+  //Alert Dialog to ask user if they really want to logout
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Leaving so soon!"),
+          content: new Text("Are you sure you want to log-out of your account?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Log Out"),
+              onPressed: () => _signOut(),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  }
+
